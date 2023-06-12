@@ -1,0 +1,25 @@
+name: Codecov Coverage
+
+on: [push]
+
+jobs:
+  set-codecov-test-coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js 16.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16.x
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Create Unit Test Coverage
+        run: yarn test:coverage
+
+      - name: Set unit test coverage
+        uses: codecov/codecov-action@v2
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: true
